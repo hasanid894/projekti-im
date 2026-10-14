@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { Pressable, StyleSheet, Text } from "react-native";
 
 type Props = {
   title: string;
@@ -8,13 +9,22 @@ type Props = {
 };
 
 export default function TaskCard({ title, course, deadline, status }: Props) {
+  const [currentStatus, setCurrentStatus] = useState(status);
+
+  const toggleStatus = () => {
+    setCurrentStatus((previousStatus) =>
+      previousStatus === "pending" ? "completed" : "pending",
+    );
+  };
   return (
-    <View style={styles.card}>
+    <Pressable onPress={toggleStatus} style={styles.card}>
       <Text style={styles.title}>{title}</Text>
       <Text>Lënda: {course}</Text>
       <Text>Afati: {deadline}</Text>
-      <Text>Statusi: {status === "pending" ? "Në pritje" : "Përfunduar"}</Text>
-    </View>
+      <Text>
+        Statusi: {currentStatus === "pending" ? "Në pritje" : "Përfunduar"}
+      </Text>
+    </Pressable>
   );
 }
 
